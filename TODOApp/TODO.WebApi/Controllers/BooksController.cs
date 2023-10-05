@@ -11,55 +11,55 @@ namespace TODO.WebApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UsersController : ControllerBase
+    public class BooksController : ControllerBase
     {
         private readonly ReviewAppDbContext _context;
 
-        public UsersController(ReviewAppDbContext context)
+        public BooksController(ReviewAppDbContext context)
         {
             _context = context;
         }
 
-        // GET: api/Users
+        // GET: api/Books
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<User>>> GetUser()
+        public async Task<ActionResult<IEnumerable<Books>>> GetBooks()
         {
-          if (_context.User == null)
+          if (_context.Books == null)
           {
               return NotFound();
           }
-            return await _context.User.ToListAsync();
+            return await _context.Books.ToListAsync();
         }
 
-        // GET: api/Users/5
+        // GET: api/Books/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<User>> GetUser(int id)
+        public async Task<ActionResult<Books>> GetBooks(int id)
         {
-          if (_context.User == null)
+          if (_context.Books == null)
           {
               return NotFound();
           }
-            var user = await _context.User.FindAsync(id);
+            var books = await _context.Books.FindAsync(id);
 
-            if (user == null)
+            if (books == null)
             {
                 return NotFound();
             }
 
-            return user;
+            return books;
         }
 
-        // PUT: api/Users/5
+        // PUT: api/Books/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutUser(int id, User user)
+        public async Task<IActionResult> PutBooks(int id, Books books)
         {
-            if (id != user.Id)
+            if (id != books.Id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(user).State = EntityState.Modified;
+            _context.Entry(books).State = EntityState.Modified;
 
             try
             {
@@ -67,7 +67,7 @@ namespace TODO.WebApi.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!UserExists(id))
+                if (!BooksExists(id))
                 {
                     return NotFound();
                 }
@@ -80,44 +80,44 @@ namespace TODO.WebApi.Controllers
             return NoContent();
         }
 
-        // POST: api/Users
+        // POST: api/Books
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<User>> PostUser(User user)
+        public async Task<ActionResult<Books>> PostBooks(Books books)
         {
-          if (_context.User == null)
+          if (_context.Books == null)
           {
-              return Problem("Entity set 'ReviewAppDbContext.User'  is null.");
+              return Problem("Entity set 'ReviewAppDbContext.Books'  is null.");
           }
-            _context.User.Add(user);
+            _context.Books.Add(books);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetUser", new { id = user.Id }, user);
+            return CreatedAtAction("GetBooks", new { id = books.Id }, books);
         }
 
-        // DELETE: api/Users/5
+        // DELETE: api/Books/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteUser(int id)
+        public async Task<IActionResult> DeleteBooks(int id)
         {
-            if (_context.User == null)
+            if (_context.Books == null)
             {
                 return NotFound();
             }
-            var user = await _context.User.FindAsync(id);
-            if (user == null)
+            var books = await _context.Books.FindAsync(id);
+            if (books == null)
             {
                 return NotFound();
             }
 
-            _context.User.Remove(user);
+            _context.Books.Remove(books);
             await _context.SaveChangesAsync();
 
             return NoContent();
         }
 
-        private bool UserExists(int id)
+        private bool BooksExists(int id)
         {
-            return (_context.User?.Any(e => e.Id == id)).GetValueOrDefault();
+            return (_context.Books?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }
